@@ -2,8 +2,8 @@
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 load_dotenv()
-
-def get_respnse(
+###
+def get_response(
         prompt:str,
         system_prompt:str =None,
         model:str ="openai/gpt-oss-120b"
@@ -34,12 +34,12 @@ def get_respnse(
 
 if __name__=="__main__":
     try:
-        answer=get_respnse(
+        answer=get_response(
             prompt="how to find the square of any number",
             system_prompt="you are a python teacher"
         
         )
-    
+   
 
         print(answer)
     except Exception as e:
