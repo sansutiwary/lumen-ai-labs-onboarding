@@ -1,8 +1,23 @@
 
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
+from functools import lru_cache
+import logging
+
 load_dotenv()
 ###
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s"
+)
+
+logger=logging.getLogger(__name__)
+
+@lru_cache(maxsize=4)
+def get_llm(model:str):
+    return ChatGroq(model=model, timeout=30,max_retries=3)
+
+
 def get_response(
         prompt:str,
         system_prompt:str =None,
@@ -11,7 +26,7 @@ def get_response(
     try:
     
     
-        llm=ChatGroq(model=model, timeout=30,max_retries=2)
+        llm=get_llm(model)
 
         message=[]
 
@@ -25,8 +40,8 @@ def get_response(
     
         res=llm.invoke(message)
         return res.content
-    except Exception as e:
-        print(f"There is an error :{e}")
+    except Exception:
+        logger.exception("LLM API request failed")
         raise
 
 
