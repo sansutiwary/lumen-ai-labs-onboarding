@@ -3,3 +3,4 @@ langchain-groq
 dotenv
 logging
 functools
+streamlit
