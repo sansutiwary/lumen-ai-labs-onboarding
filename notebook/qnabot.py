@@ -26,11 +26,14 @@ for message in st.session_state.messages:
     st.chat_message(role).markdown(content)
 
 
-
+#history=[]
 quary=st.chat_input("Ask anything")
 if quary:
+    #history.append({"role":"user","content":quary})
     st.session_state.messages.append({"role":"user","content":quary})
     st.chat_message("user").markdown(quary)
-    res=llm.invoke(quary)
+    res=llm.invoke(st.session_state.messages)
+    #history.append({"role":"ai","content":res.content})
     st.chat_message("ai").markdown(res.content)
+    
     st.session_state.messages.append({"role":"ai","content":res.content})
